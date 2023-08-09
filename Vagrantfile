@@ -17,9 +17,8 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "db02" do |mariadb|
         mariadb.vm.box = "ubuntu/focal64"
-        mariadb.vm.hostname = "mariadb"
-        mariadb.vm.network "private_network", ip: "192.168.56.33"
-        # mariadb.vm.network "private_network", type: "dhcp"
+        mariadb.vm.hostname = ENV["mariadb_hostname"]
+        mariadb.vm.network "private_network", ip: ENV["mariadb_ip"]
         mariadb.vm.provision "shell" do |shell|
        # Pass the variables to the provision script
          shell.args = [
@@ -32,16 +31,15 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "mc02" do |memcache|
         memcache.vm.box = "ubuntu/focal64"
-        memcache.vm.hostname = "memcache"
-        memcache.vm.network "private_network", ip: "192.168.56.4"
-        # memcache.vm.network "private_network", type: "dhcp"
+        memcache.vm.hostname = ENV["memcache_hostname"]
+        memcache.vm.network "private_network", ip: ENV["memcache_ip"]
         memcache.vm.provision "shell", path: "memcache_setup.sh"
     end
 
     config.vm.define "rmq02" do |rabbitmq|
         rabbitmq.vm.box = "ubuntu/focal64"
-        rabbitmq.vm.hostname = "rabbitmq"
-        rabbitmq.vm.network "private_network", ip: "192.168.56.9"
+        rabbitmq.vm.hostname = ENV["rabbitmq_hostname"]
+        rabbitmq.vm.network "private_network", ip: ENV["rabbitmq_ip"]
         rabbitmq.vm.provision "shell" do |shell|
        # Pass the variables to the provision script
          shell.args = [
@@ -55,8 +53,8 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "app02" do |tomcat|
         tomcat.vm.box = "ubuntu/focal64"
-        tomcat.vm.hostname = "tomcat"
-        tomcat.vm.network "private_network", ip: "192.168.56.3"
+        tomcat.vm.hostname = ENV["tomcat_hostname"]
+        tomcat.vm.network "private_network", ip: ENV["tomcat_ip"]
         tomcat.vm.provision "shell", path: "tomcat_setup.sh"
         if $? == 0
           tomcat.vm.provision "shell" do |shell|
@@ -76,8 +74,8 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "web02" do |nginx|
         nginx.vm.box = "ubuntu/focal64"
-        nginx.vm.hostname = "nginx"
-        nginx.vm.network "private_network", ip: "192.168.56.2"
+        nginx.vm.hostname = ENV["nginx_hostname"]
+        nginx.vm.network "private_network", ip: ENV["nginx_ip"]
         nginx.vm.provision "shell", path: "nginx_setup.sh"
     end
 end 
