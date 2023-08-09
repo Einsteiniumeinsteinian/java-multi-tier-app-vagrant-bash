@@ -2,8 +2,6 @@
 
 # Update package list
 sudo apt update
-
-# Upgrade Packages
 sudo apt upgrade
 
 # Install Memcached
@@ -18,11 +16,7 @@ sudo systemctl status memcached
 
 # Optionally, configure Memcached to listen on specific interfaces and ports
 # Modify the configuration file if needed
-# sudo nano /etc/memcached.conf
-
-# Test Memcached
-# echo "Testing Memcached..."
-# echo -e "set mykey 0 3600 5\r\nhello\r\nget mykey\r\n" | nc localhost 11211
-
-# # Terminate the script after Memcached testing is complete
-# exit
+# sudo nano /etc/memcached.con
+sudo sed -i 's/-l 127.0.0.1/-l 0.0.0.0/' "/etc/memcached.conf"
+sudo systemctl restart memcached
+sudo systemctl status memcached

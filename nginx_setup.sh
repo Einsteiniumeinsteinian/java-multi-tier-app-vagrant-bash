@@ -7,6 +7,10 @@ sudo apt update
 # Install Nginx
 sudo apt install nginx -y
 
+# Remove the default Nginx conf
+sudo rm -rf /etc/nginx/sites-available/*
+sudo rm -rf /etc/nginx/sites-enabled/* 
+
 # Create an Nginx conf file with the given content
 cat <<EOF | sudo tee /etc/nginx/sites-available/vproapp
 upstream vproapp {
@@ -20,11 +24,7 @@ server {
     }
 }
 EOF
-
-# Remove the default Nginx conf
-sudo rm -rf /etc/nginx/sites-enabled/default
-
-# Create a link to activate the website
+# # Create a link to activate the website
 sudo ln -s /etc/nginx/sites-available/vproapp /etc/nginx/sites-enabled/vproapp
 
 # Restart Nginx

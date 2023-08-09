@@ -1,5 +1,8 @@
 #!/bin/bash
 
+rabbitmqUsername=$1
+rabbitmqPassword=$2
+
 # Update package list
 sudo apt-get update
 
@@ -39,7 +42,8 @@ sudo systemctl enable rabbitmq-server
 sleep 10
 
 # Create a new user named "test" with full administrative privileges
-sudo rabbitmqctl add_user test mytestpassword
-sudo rabbitmqctl set_user_tags test administrator
-sudo rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
-
+sudo sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config'
+sudo rabbitmqctl add_user $rabbitmqUsername $rabbitmqPassword
+sudo rabbitmqctl set_user_tags $rabbitmqUsername administrator
+sudo rabbitmqctl set_permissions -p / $rabbitmqUsername ".*" ".*" ".*"
+sudo systemctl restart rabbitmq-server

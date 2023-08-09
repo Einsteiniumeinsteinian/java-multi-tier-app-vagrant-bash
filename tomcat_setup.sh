@@ -18,6 +18,7 @@ sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
 # Download the latest stable version of Tomcat and move it to /opt directory
 wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz
 tar xzvf apache-tomcat-9.0.75.tar.gz
+rm -rf /opt/tomcat
 sudo mv apache-tomcat-9.0.75 /opt/tomcat
 
 # Make tomcat user the owner of tomcat home dir
@@ -34,7 +35,7 @@ After=network.target
 [Service]
 Type=forking
 
-Environment=JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-arm64
+Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
 Environment=CATALINA_Home=/opt/tomcat
 Environment=CATALINA_BASE=/opt/tomcat
@@ -45,7 +46,7 @@ ExecStop=/opt/tomcat/bin/shutdown.sh
 User=tomcat
 Group=tomcat
 UMask=0007
-RestartSec=10
+RestartSec=10 
 Restart=always
 
 [Install]
@@ -60,11 +61,3 @@ sudo systemctl daemon-reload
 sudo systemctl start tomcat
 sudo systemctl enable tomcat
 sudo service tomcat status
-
-# Enabling the firewall and allowing port 8080 to access tomcat
-# sudo systemctl start ufw
-# sudo systemctl enable ufw
-# sudo ufw allow 8080
-
-# Reload ufw
-sudo ufw reload
