@@ -65,15 +65,16 @@ Feel free to customize the scripts if you require different configurations for s
 
 ### Application URL
 
-You can access the deployed Magento2 application at the following URL: <http://http://192.168.56.2//> after deployment and if IPs are not changed
+You can access the Java application at the following URL: <http://http://192.168.56.2//> after deployment and if IPs are not changed
 
 ## Modifications
 
 ### The following Modifications where considered
 
 1. Making the deployment fully automated using bash scripts
-2. making variable files to accommodate for varables
+2. making variable files to accommodate  variables
 
 ### Improvemnts
 
 1. Make IPs and host naming variadic.
+2. Copy files instead of cloning to speed up processes.
