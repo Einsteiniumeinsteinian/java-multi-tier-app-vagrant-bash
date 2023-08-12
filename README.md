@@ -39,20 +39,15 @@ The infrastructure layout consists of the following:
 ## Installation
 
 - Clone this Repo. ensure that all prerequisites are installed
-- create a variables.env file and add the following data. `Your variable values can be any figure of your choice*`
-
-```script
-jdbcUsername=<your-mariadb-database-username>
-jdbcPassword=<your-mariadb-database-password>
-rabbitmqUsername=<your-rabbitmq-username>
-rabbitmqPassword=<your-rabbitmq-password>
-```
+- create a variables.env and configure your variables accordingly. use the example.env file as a guide.
+- After ensuring env is properly populated, run 
 
 ```bash
-vagrant up
+chmod 700 run.sh
+./run.sh
 ```
 
-- Ensure that your env where updated correctly
+- After application stack is deployed, ensure that your env where updated correctly
 
 ``````bash
 vagrant ssh app02
@@ -62,6 +57,12 @@ cat ~/vprofile-project/src/main/resources/application.properties
 `N/B: Ensure that you check the variable files for values specific to your deployments if any*`
 
 Feel free to customize the scripts if you require different configurations for setup. **Ensure that the scripts have the appropriate permissions and are run with sudo as they involve installations.**
+
+- to uninstall run
+
+```bash
+  vagrant destroy
+```
 
 ### Application URL
 
@@ -73,8 +74,6 @@ You can access the Java application at the following URL: <http://http://192.168
 
 1. Making the deployment fully automated using bash scripts
 2. making variable files to accommodate  variables
-
-### Improvemnts
-
-1. Make IPs and host naming variadic.
-2. Copy files instead of cloning to speed up processes.
+3. Make IPs and host naming variadic.
+4. Copy files instead of cloning to speed up processes.
+5. Added run script

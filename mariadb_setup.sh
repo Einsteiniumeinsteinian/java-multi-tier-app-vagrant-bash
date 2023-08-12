@@ -21,6 +21,7 @@ EOF
 mySqlUsername=$1
 mySqlPassword=$2
 root_password=$2
+application_directory=$3
 
 # Install MariaDB Package
 sudo apt-get update
@@ -47,8 +48,7 @@ exit
 EOF
 
 # Download Source code & Initialize Database.
-git clone -b main https://github.com/hkhcoder/vprofile-project.git
-cd vprofile-project
+cd $application_directory
 sudo mysql -u root -p"$root_password" accounts < src/main/resources/db_backup.sql
 
 # Check if the tables are created

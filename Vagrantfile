@@ -14,16 +14,22 @@ Vagrant.configure("2") do |config|
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
     config.vm.provider "virtualbox"
+    
+    
+    # Specify the default private key for SSH authentication
 
     config.vm.define "db02" do |mariadb|
         mariadb.vm.box = "ubuntu/focal64"
         mariadb.vm.hostname = ENV["mariadb_hostname"]
         mariadb.vm.network "private_network", ip: ENV["mariadb_ip"]
+        # config.vm.synced_folder "./application-directory", "/home/vagrant/application-directory", type: "rsync"
+        config.vm.synced_folder "./#{ENV['application_directory']}", "/home/vagrant/#{ENV['application_directory']}", type: "rsync"
         mariadb.vm.provision "shell" do |shell|
        # Pass the variables to the provision script
          shell.args = [
           ENV['jdbcUsername'],
-          ENV['jdbcPassword']
+          ENV['jdbcPassword'],
+          ENV['application_directory'],
       ]
     shell.path = "mariadb_setup.sh"
       end
@@ -55,6 +61,7 @@ Vagrant.configure("2") do |config|
         tomcat.vm.box = "ubuntu/focal64"
         tomcat.vm.hostname = ENV["tomcat_hostname"]
         tomcat.vm.network "private_network", ip: ENV["tomcat_ip"]
+        config.vm.synced_folder "./#{ENV['application_directory']}", "/home/vagrant/#{ENV['application_directory']}", type: "rsync"
         tomcat.vm.provision "shell", path: "tomcat_setup.sh"
         if $? == 0
           tomcat.vm.provision "shell" do |shell|
@@ -63,7 +70,8 @@ Vagrant.configure("2") do |config|
           ENV['rabbitmqUsername'],
           ENV['rabbitmqPassword'],
           ENV['jdbcUsername'],
-          ENV['jdbcPassword']
+          ENV['jdbcPassword'],
+          ENV['application_directory'],
       ]
          shell.path = "app_setup.sh"
       end

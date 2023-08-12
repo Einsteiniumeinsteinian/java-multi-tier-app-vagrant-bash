@@ -16,7 +16,6 @@ sudo systemctl status memcached
 
 # Optionally, configure Memcached to listen on specific interfaces and ports
 # Modify the configuration file if needed
-# sudo nano /etc/memcached.con
 sudo sed -i 's/-l 127.0.0.1/-l 0.0.0.0/' "/etc/memcached.conf"
 sudo systemctl restart memcached
 sudo systemctl status memcached
