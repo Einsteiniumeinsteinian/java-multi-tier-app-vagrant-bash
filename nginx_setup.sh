@@ -1,5 +1,5 @@
 #!/bin/bash
-
+tomcat_hostname=$1
 # Update OS with the latest patches
 sudo apt update
 # sudo apt upgrade -y
@@ -14,7 +14,7 @@ sudo rm -rf /etc/nginx/sites-enabled/*
 # Create an Nginx conf file with the given content
 cat <<EOF | sudo tee /etc/nginx/sites-available/vproapp
 upstream vproapp {
-    server tomcat:8080;
+    server ${tomcat_hostname}:8080;
 }
 
 server {

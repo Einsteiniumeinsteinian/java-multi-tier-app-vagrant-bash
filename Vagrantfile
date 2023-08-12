@@ -84,6 +84,12 @@ Vagrant.configure("2") do |config|
         nginx.vm.box = "ubuntu/focal64"
         nginx.vm.hostname = ENV["nginx_hostname"]
         nginx.vm.network "private_network", ip: ENV["nginx_ip"]
-        nginx.vm.provision "shell", path: "nginx_setup.sh"
+        nginx.vm.provision "shell" do |shell|
+       # Pass the variables to the provision script
+         shell.args = [
+          ENV['tomcat_hostname'],
+      ]
+         shell.path = "nginx_setup.sh"
+      end
     end
 end 
